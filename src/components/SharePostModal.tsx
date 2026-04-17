@@ -78,7 +78,7 @@ const SharePostModal = ({ open, onClose, postAuthor, postContent }: SharePostMod
 
   return createPortal(
     <div style={{ position: "fixed", inset: 0, zIndex: 9999 }}>
-      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(52,64,84,0.6)" }} />
+      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(10,13,18,0.7)" }} />
 
       <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 560, background: "#fff", borderRadius: 16, boxShadow: "0 24px 80px rgba(10,13,18,0.22)", border: "1px solid #E9EAEB", display: "flex", flexDirection: "column", overflow: "hidden", maxHeight: "90vh" }}>
 

@@ -159,7 +159,7 @@ const CreateChannelModal = ({ open, onOpenChange, onNext, onCreateChannel }: Cre
   return createPortal(
     <div style={{ position: "fixed", inset: 0, zIndex: 9999 }}>
       {/* Overlay */}
-      <div onClick={handleClose} style={{ position: "absolute", inset: 0, background: "rgba(52, 64, 84, 0.6)" }} />
+      <div onClick={handleClose} style={{ position: "absolute", inset: 0, background: "rgba(10,13,18,0.7)" }} />
 
       {/* Modal */}
       <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1, width: 620, background: "#fff", borderRadius: 16, boxShadow: "0 24px 80px rgba(10,13,18,0.22)", display: "flex", flexDirection: "column", border: "1px solid #E9EAEB", overflow: "hidden", maxHeight: "90vh" }}>

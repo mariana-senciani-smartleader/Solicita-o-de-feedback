@@ -423,7 +423,7 @@ const CreatePostModal = ({ open, onClose, onPublish, onSchedulePost, avatar, ini
       <input ref={docInputRef}  type="file" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip,.rar,.ppt,.pptx" style={{ display: "none" }} onChange={handleFiles} />
 
       {/* Overlay */}
-      <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(52,64,84,0.5)" }} />
+      <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(10,13,18,0.7)" }} />
 
       {/* Modal */}
       <div
@@ -667,11 +667,10 @@ const CreatePostModal = ({ open, onClose, onPublish, onSchedulePost, avatar, ini
                       onClick={() => {
                         const r = dateBtnRef.current?.getBoundingClientRect();
                         if (r) {
-                          const pickerW = 280;
-                          // bottom of calendar aligns with bottom of input
-                          const bottom = window.innerHeight - r.bottom;
-                          const left = r.left - pickerW;
-                          setDatePickerPos({ bottom, left: Math.max(0, left) });
+                          // picker opens above the button (dropup)
+                          const bottom = window.innerHeight - r.top + 8;
+                          const left = r.left;
+                          setDatePickerPos({ bottom, left: Math.max(8, Math.min(left, window.innerWidth - 288)) });
                         }
                         setDatePickerOpen(v => !v);
                         setTimePickerOpen(false);
@@ -705,10 +704,10 @@ const CreatePostModal = ({ open, onClose, onPublish, onSchedulePost, avatar, ini
                       onClick={() => {
                         const r = timeBtnRef.current?.getBoundingClientRect();
                         if (r) {
-                          // bottom of picker aligns with bottom of input
-                          const bottom = window.innerHeight - r.bottom;
-                          const left = r.right + 4;
-                          setTimePickerPos({ bottom, left: Math.min(left, window.innerWidth - 228 - 8) });
+                          // picker opens above the button (dropup)
+                          const bottom = window.innerHeight - r.top + 8;
+                          const left = r.left;
+                          setTimePickerPos({ bottom, left: Math.max(8, Math.min(left, window.innerWidth - 228 - 8)) });
                         }
                         setTimePickerOpen(v => !v);
                         setDatePickerOpen(false);
@@ -740,38 +739,40 @@ const CreatePostModal = ({ open, onClose, onPublish, onSchedulePost, avatar, ini
           </div>
         </div>
 
-        {/* ── Footer ── */}
-        <div style={{ borderTop: "1px solid #E9EAEB", padding: "14px 20px" }}>
-          <Flex align="center" justify="space-between">
-            <Flex gap={8}>
-              <button onClick={openFilePicker} style={footerBtnStyle}>
-                <LucideImage size={16} color="#344054" />Mídia
-              </button>
-              <button onClick={openDocPicker} style={footerBtnStyle}>
-                <Paperclip size={16} color="#344054" />Documentos
-              </button>
-            </Flex>
-            <Flex gap={10}>
-              <button onClick={onClose} style={{ padding: "8px 18px", borderRadius: 8, border: "1px solid #D5D7DA", background: "#fff", cursor: "pointer", fontSize: 14, fontWeight: 600, color: "#344054", fontFamily: "inherit" }}>
-                Voltar
-              </button>
-              <button
-                onClick={canPublish ? (scheduleMode === "schedule" ? handleSchedule : handlePublish) : undefined}
-                disabled={!canPublish}
-                style={{
-                  padding: "8px 22px", borderRadius: 8, border: "none",
-                  background: canPublish ? "#1570EF" : "#F2F4F7",
-                  cursor: canPublish ? "pointer" : "default",
-                  fontSize: 14, fontWeight: 600,
-                  color: canPublish ? "#fff" : "#A4A7AE",
-                  fontFamily: "inherit", transition: "background 0.2s",
-                  display: "flex", alignItems: "center", gap: 6,
-                }}
-              >
-                {scheduleMode === "schedule" && <Clock size={14} color={canPublish ? "#fff" : "#A4A7AE"} />}
-                {scheduleMode === "schedule" ? "Agendar publicação" : "Publicar"}
-              </button>
-            </Flex>
+        {/* ── Mídia / Documentos row ── */}
+        <div style={{ borderTop: "1px solid #E9EAEB", padding: "12px 20px", borderBottom: "1px solid #E9EAEB" }}>
+          <Flex gap={8}>
+            <button onClick={openFilePicker} style={footerBtnStyle}>
+              <LucideImage size={16} color="#344054" />Mídia
+            </button>
+            <button onClick={openDocPicker} style={footerBtnStyle}>
+              <Paperclip size={16} color="#344054" />Documentos
+            </button>
+          </Flex>
+        </div>
+
+        {/* ── Footer CTAs ── */}
+        <div style={{ padding: "14px 20px" }}>
+          <Flex align="center" justify="flex-end" gap={10}>
+            <button onClick={onClose} style={{ padding: "8px 18px", borderRadius: 8, border: "1px solid #D5D7DA", background: "#fff", cursor: "pointer", fontSize: 14, fontWeight: 600, color: "#344054", fontFamily: "inherit" }}>
+              Voltar
+            </button>
+            <button
+              onClick={canPublish ? (scheduleMode === "schedule" ? handleSchedule : handlePublish) : undefined}
+              disabled={!canPublish}
+              style={{
+                padding: "8px 22px", borderRadius: 8, border: "none",
+                background: canPublish ? "#1570EF" : "#F2F4F7",
+                cursor: canPublish ? "pointer" : "default",
+                fontSize: 14, fontWeight: 600,
+                color: canPublish ? "#fff" : "#A4A7AE",
+                fontFamily: "inherit", transition: "background 0.2s",
+                display: "flex", alignItems: "center", gap: 6,
+              }}
+            >
+              {scheduleMode === "schedule" && <Clock size={14} color={canPublish ? "#fff" : "#A4A7AE"} />}
+              {scheduleMode === "schedule" ? "Agendar publicação" : "Publicar"}
+            </button>
           </Flex>
         </div>
       </div>

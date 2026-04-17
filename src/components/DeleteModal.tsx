@@ -20,7 +20,7 @@ const DeleteModal = ({ open, title, description, confirmLabel = "Delete", onCanc
         onClick={onCancel}
         style={{
           position: "fixed", inset: 0, zIndex: 2000,
-          background: "rgba(52, 64, 84, 0.45)",
+          background: "rgba(10,13,18,0.7)",
         }}
       />
 

@@ -239,7 +239,7 @@ const PostDetailsModal = ({ post, onClose, onDelete, onPublish, onRetry, onEdit 
       {/* Overlay */}
       <div
         onClick={onClose}
-        style={{ position: "fixed", inset: 0, zIndex: 1400, background: "rgba(52,64,84,0.5)" }}
+        style={{ position: "fixed", inset: 0, zIndex: 1400, background: "rgba(10,13,18,0.7)" }}
       />
 
       {/* Modal */}

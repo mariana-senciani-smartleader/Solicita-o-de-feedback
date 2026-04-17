@@ -273,7 +273,7 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
   return (
     <>
       {/* Overlay */}
-      <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 1200, background: "rgba(52,64,84,0.5)" }} />
+      <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 1200, background: "rgba(10,13,18,0.7)" }} />
 
       {/* Modal */}
       <div
@@ -662,7 +662,7 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
       {/* ── Confirm publish ── */}
       {confirmPublish && (
         <>
-          <div onClick={() => setConfirmPublish(null)} style={{ position: "fixed", inset: 0, zIndex: 1300, background: "rgba(52,64,84,0.4)" }} />
+          <div onClick={() => setConfirmPublish(null)} style={{ position: "fixed", inset: 0, zIndex: 1300, background: "rgba(10,13,18,0.7)" }} />
           <div onClick={e => e.stopPropagation()} style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1301, width: "min(400px, calc(100vw - 48px))", background: "#fff", borderRadius: 16, boxShadow: "0 24px 80px rgba(10,13,18,0.22)", border: "1px solid #E9EAEB", padding: "24px", fontFamily: "Inter, sans-serif" }}>
             <Flex align="flex-start" gap={14} style={{ marginBottom: 20 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#EFF8FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -685,7 +685,7 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
       {/* ── Confirm delete ── */}
       {confirmDelete && (
         <>
-          <div onClick={() => setConfirmDelete(null)} style={{ position: "fixed", inset: 0, zIndex: 1300, background: "rgba(52,64,84,0.4)" }} />
+          <div onClick={() => setConfirmDelete(null)} style={{ position: "fixed", inset: 0, zIndex: 1300, background: "rgba(10,13,18,0.7)" }} />
           <div onClick={e => e.stopPropagation()} style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1301, width: "min(400px, calc(100vw - 48px))", background: "#fff", borderRadius: 16, boxShadow: "0 24px 80px rgba(10,13,18,0.22)", border: "1px solid #E9EAEB", padding: "24px", fontFamily: "Inter, sans-serif" }}>
             <Flex align="flex-start" gap={14} style={{ marginBottom: 20 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#FEF3F2", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

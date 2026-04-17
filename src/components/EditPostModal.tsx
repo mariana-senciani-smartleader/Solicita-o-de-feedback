@@ -218,8 +218,8 @@ const EditPostModal = ({ post, onClose, onSave }: Props) => {
   const [scheduleTime,  setScheduleTime]  = useState("12:00");
   const [datePickerOpen,setDatePickerOpen]= useState(false);
   const [timePickerOpen,setTimePickerOpen]= useState(false);
-  const [datePickerPos, setDatePickerPos] = useState({ top: 0, left: 0 });
-  const [timePickerPos, setTimePickerPos] = useState({ top: 0, left: 0 });
+  const [datePickerPos, setDatePickerPos] = useState({ bottom: 0, left: 0 });
+  const [timePickerPos, setTimePickerPos] = useState({ bottom: 0, left: 0 });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const docInputRef  = useRef<HTMLInputElement>(null);
@@ -280,7 +280,9 @@ const EditPostModal = ({ post, onClose, onSave }: Props) => {
   const openDatePicker = () => {
     if (dateBtnRef.current) {
       const r = dateBtnRef.current.getBoundingClientRect();
-      setDatePickerPos({ top: r.bottom + 8, left: r.left });
+      const bottom = window.innerHeight - r.top + 8;
+      const left = r.left;
+      setDatePickerPos({ bottom, left: Math.max(8, Math.min(left, window.innerWidth - 288)) });
     }
     setTimePickerOpen(false);
     setDatePickerOpen(v => !v);
@@ -288,7 +290,9 @@ const EditPostModal = ({ post, onClose, onSave }: Props) => {
   const openTimePicker = () => {
     if (timeBtnRef.current) {
       const r = timeBtnRef.current.getBoundingClientRect();
-      setTimePickerPos({ top: r.bottom + 8, left: r.left });
+      const bottom = window.innerHeight - r.top + 8;
+      const left = r.left;
+      setTimePickerPos({ bottom, left: Math.max(8, Math.min(left, window.innerWidth - 228 - 8)) });
     }
     setDatePickerOpen(false);
     setTimePickerOpen(v => !v);
@@ -305,7 +309,7 @@ const EditPostModal = ({ post, onClose, onSave }: Props) => {
       {/* Overlay */}
       <div
         onClick={onClose}
-        style={{ position: "fixed", inset: 0, zIndex: 1500, background: "rgba(52,64,84,0.5)" }}
+        style={{ position: "fixed", inset: 0, zIndex: 1500, background: "rgba(10,13,18,0.7)" }}
       />
 
       {/* Modal */}
@@ -592,7 +596,7 @@ const EditPostModal = ({ post, onClose, onSave }: Props) => {
 
       {/* ── Floating date picker ── */}
       {datePickerOpen && createPortal(
-        <div style={{ position: "fixed", top: datePickerPos.top, left: datePickerPos.left, zIndex: 2000 }}>
+        <div style={{ position: "fixed", bottom: datePickerPos.bottom, left: datePickerPos.left, zIndex: 2000 }}>
           <DatePickerDropdown
             value={scheduleDate}
             onChange={d => { setScheduleDate(d); setDatePickerOpen(false); }}
@@ -603,7 +607,7 @@ const EditPostModal = ({ post, onClose, onSave }: Props) => {
 
       {/* ── Floating time picker ── */}
       {timePickerOpen && createPortal(
-        <div style={{ position: "fixed", top: timePickerPos.top, left: timePickerPos.left, zIndex: 2000 }}>
+        <div style={{ position: "fixed", bottom: timePickerPos.bottom, left: timePickerPos.left, zIndex: 2000 }}>
           <TimePickerDropdown
             value={scheduleTime}
             onChange={t => { setScheduleTime(t); setTimePickerOpen(false); }}

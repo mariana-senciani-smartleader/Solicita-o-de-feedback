@@ -365,7 +365,7 @@ const PostCard = ({
   const reactionsInsightContent = (
     <div style={{ width: 268, maxHeight: 300, overflowY: "auto" }}>
       <div style={{ padding: "12px 14px 8px", borderBottom: "1px solid #F2F4F7" }}>
-        <Typography.Text strong style={{ fontSize: 13, color: "#101828" }}>
+        <Typography.Text strong style={{ fontSize: 14, color: "#101828" }}>
           Reações · {likes}
         </Typography.Text>
         <Typography.Text style={{ fontSize: 11, color: "#667085", display: "block", marginTop: 2 }}>
@@ -375,12 +375,12 @@ const PostCard = ({
       <div style={{ padding: "10px 14px" }}>
         <Flex vertical gap={8}>
           {reactionRows.map((row) => (
-            <Flex key={row.label} align="center" justify="space-between" style={{ fontSize: 12 }}>
+            <Flex key={row.label} align="center" justify="space-between" style={{ fontSize: 14 }}>
               <Flex align="center" gap={8}>
                 <span style={{ fontSize: 16, lineHeight: 1 }}>{row.emoji}</span>
-                <Typography.Text style={{ color: "#344054" }}>{row.label}</Typography.Text>
+                <Typography.Text style={{ fontSize: 14, color: "#344054" }}>{row.label}</Typography.Text>
               </Flex>
-              <Typography.Text strong style={{ color: "#101828", fontVariantNumeric: "tabular-nums" }}>{row.count}</Typography.Text>
+              <Typography.Text strong style={{ fontSize: 14, color: "#101828", fontVariantNumeric: "tabular-nums" }}>{row.count}</Typography.Text>
             </Flex>
           ))}
         </Flex>
