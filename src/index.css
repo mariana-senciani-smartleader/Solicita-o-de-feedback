@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ─── SmartLeader Design System 4.0 ─── */
+:root {
+  --color-brand-25:  #F5FAFF;
+  --color-brand-50:  #EFF8FF;
+  --color-brand-100: #D1E9FF;
+  --color-brand-200: #B2DDFF;
+  --color-brand-300: #84CAFF;
+  --color-brand-400: #53B1FD;
+  --color-brand-500: #2E90FA;
+  --color-brand-600: #1570EF;
+  --color-brand-700: #175CD3;
+  --color-brand-800: #1849A9;
+  --color-brand-900: #194185;
+
+  --color-gray-25:  #FDFDFD;
+  --color-gray-50:  #FAFAFA;
+  --color-gray-100: #F5F5F5;
+  --color-gray-200: #E9EAEB;
+  --color-gray-300: #D5D7DA;
+  --color-gray-400: #A4A7AE;
+  --color-gray-500: #717680;
+  --color-gray-600: #535862;
+  --color-gray-700: #414651;
+  --color-gray-800: #252B37;
+  --color-gray-900: #181D27;
+
+  --color-error-50:   #FEF3F2;
+  --color-error-100:  #FEE4E2;
+  --color-error-200:  #FECDCA;
+  --color-error-600:  #D92D20;
+  --color-error-700:  #B42318;
+
+  --color-success-50:  #ECFDF3;
+  --color-success-600: #079455;
+  --color-success-700: #067647;
+
+  --navbar-bg: hsl(220, 43%, 11%);
+
+  /* Font */
+  --font-family: 'Inter', sans-serif;
+
+  /* shadcn/Radix theme (light) – required for Dialog, Select, etc. */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 217 91% 60%;
+  --radius: 0.5rem;
+}
+
+/* ─── Global reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 1.5;
+  color: #181D27;
+  background: #F5F5F5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Ant Design global overrides ─── */
+.ant-layout {
+  min-height: 0;
+}
+
+/* ─── Channel item – show action buttons only on hover ─── */
+.channel-item .channel-action-btn {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.channel-item:hover .channel-action-btn {
+  opacity: 1;
+}
+
+/* Remove default antd focus outline on buttons (we rely on antd's own styles) */
+button:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
+}
+
+/* ─── Custom scrollbar ─── */
+::-webkit-scrollbar        { width: 3px; height: 3px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #D5D7DA; border-radius: 3px; }
+
+.thin-scrollbar::-webkit-scrollbar       { width: 3px; }
+.thin-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.thin-scrollbar::-webkit-scrollbar-thumb { background: #D5D7DA; border-radius: 3px; }
+
+.filter-scrollbar { padding-bottom: 8px; }
+.filter-scrollbar::-webkit-scrollbar        { height: 6px; }
+.filter-scrollbar::-webkit-scrollbar-track  { background: transparent; }
+.filter-scrollbar::-webkit-scrollbar-thumb  { background: rgba(113,118,128,0.3); border-radius: 3px; }
+
+.ant-segmented,
+.ant-segmented-item,
+.ant-segmented-item-label {
+  overflow: visible !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Stroke light effect for new posts ─── */
+@keyframes stroke-light {
+  0%   { box-shadow: 0 0 0 0 rgba(21,112,239,0.4); border-color: #1570EF; }
+  50%  { box-shadow: 0 0 12px 2px rgba(21,112,239,0.15); border-color: #1570EF; }
+  100% { box-shadow: 0 1px 2px rgba(10,13,18,0.04); border-color: #E9EAEB; }
+}
+.post-card-new {
+  animation: stroke-light 0.5s ease-out;
+}
+
+/* ─── Add Members Modal ─── */
+.add-members-modal {
+  padding: 0 !important;
+}
+.add-members-modal .ant-modal-content {
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.add-members-modal .ant-modal-header {
+  display: none !important;
+}
+.add-members-modal .ant-modal-close {
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+/* ─── Create Channel Modal – allow side picker overflow ─── */
+.create-channel-modal .ant-modal-content {
+  overflow: visible !important;
+}
