@@ -257,13 +257,13 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
 
   const StatusBadge = ({ status }: { status: ScheduledPost["status"] }) => {
     const map = {
-      agendado: { label: "Agendado", color: "#175CD3", bg: "#EFF8FF", dot: "#2E90FA" },
-      postado:  { label: "Postado",  color: "#067647", bg: "#ECFDF3", dot: "#17B26A" },
-      falhou:   { label: "Falhou",   color: "#B42318", bg: "#FEF3F2", dot: "#F04438" },
+      agendado: { label: "Agendado", color: "#175CD3", bg: "#EFF8FF", dot: "#2E90FA", border: "#B2DDFF" },
+      postado:  { label: "Postado",  color: "#067647", bg: "#ECFDF3", dot: "#17B26A", border: "#ABEFC6" },
+      falhou:   { label: "Falhou",   color: "#B42318", bg: "#FEF3F2", dot: "#F04438", border: "#FECDCA" },
     };
     const s = map[status];
     return (
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 500, color: s.color, background: s.bg, borderRadius: 99, padding: "2px 8px 2px 6px", whiteSpace: "nowrap" }}>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 500, color: s.color, background: s.bg, borderRadius: 99, padding: "2px 8px 2px 6px", whiteSpace: "nowrap", border: `1px solid ${s.border}` }}>
         <span style={{ width: 6, height: 6, borderRadius: "50%", background: s.dot, flexShrink: 0 }} />
         {s.label}
       </span>
