@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { NotificationProvider } from "./context/NotificationContext";
 
 const queryClient = new QueryClient();
 
@@ -118,12 +119,14 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ConfigProvider locale={ptBR} theme={dsTheme}>
       <AntApp>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/"  element={<Index />} />
-            <Route path="*"  element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <NotificationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/"  element={<Index />} />
+              <Route path="*"  element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </NotificationProvider>
       </AntApp>
     </ConfigProvider>
   </QueryClientProvider>

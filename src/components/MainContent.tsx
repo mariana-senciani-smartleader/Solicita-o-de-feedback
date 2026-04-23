@@ -1,12 +1,13 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import {
-  CheckCircle2, ChevronDown, Globe,
+  ChevronDown, Globe,
   Info, Paperclip, Search,
   Settings, Smile, Image as ImageIcon, X, UserPlus,
 } from "lucide-react";
 import {
-  App, Avatar, Flex, Input, Popover, Segmented, Tooltip, Typography,
+  Avatar, Flex, Input, Popover, Segmented, Tooltip, Typography,
 } from "antd";
+import { useAppNotification } from "@/context/NotificationContext";
 import PostCard from "./PostCard";
 import ChannelMembersModal from "./ChannelMembersModal";
 import ChannelsSidebar from "./ChannelsSidebar";
@@ -328,7 +329,7 @@ const PostsSkeleton = () => (
 );
 
 const MainContent = () => {
-  const { notification } = App.useApp();
+  const { showNotification } = useAppNotification();
   const [selectedChannel, setSelectedChannel] = useState<ChannelInfo>({
     label: "Geral", icon: Globe, iconBg: "#1570EF",
   });
@@ -406,6 +407,7 @@ const MainContent = () => {
       ...prev,
       [selectedChannel.label]: prev[selectedChannel.label].filter(p => p.id !== id),
     }));
+    showNotification("Postagem excluída com sucesso");
   };
 
   const handleMemberCountChange = useCallback((c: number) => setMemberCount(c), []);
@@ -447,58 +449,32 @@ const MainContent = () => {
       [selectedChannel.label]: [newPost, ...(prev[selectedChannel.label] ?? [])],
     }));
     setCreatePostOpen(false);
+    showNotification("Postagem publicada com sucesso");
+  }, [showNotification, selectedChannel.label]);
 
-    notification.success({
-      message: "Postagem publicada com sucesso",
-      duration: 4,
-      placement: "bottomLeft",
-      icon: <CheckCircle2 size={18} style={{ color: "#079455" }} />,
-      style: { borderRadius: 12, boxShadow: "0 8px 24px rgba(10,13,18,0.12)" },
-    });
-  }, [notification, selectedChannel.label]);
-
-  const showNotif = useCallback((msg: string, type: "added" | "removed") => {
-    if (type === "added") {
-      notification.success({ message: "Usuário adicionado com sucesso", description: msg, duration: 4, placement: "topRight", icon: <CheckCircle2 size={18} style={{ color: "#079455" }} /> });
-    } else {
-      notification.error({ message: "Membro excluído com sucesso", description: msg, duration: 4, placement: "topRight", icon: <X size={18} style={{ color: "#D92D20" }} /> });
-    }
-  }, [notification]);
-
-  const handleMembersAdded = useCallback((n: string) => showNotif(`${n} foi incluído no canal.`, "added"), [showNotif]);
-  const handleMemberRemoved = useCallback((n: string) => showNotif(`${n} foi removido do canal.`, "removed"), [showNotif]);
-  const handleCommentDeleted = useCallback(() => notification.success({ message: "Comentário excluído com sucesso", duration: 4, placement: "topRight" }), [notification]);
+  const handleMembersAdded = useCallback((_name: string) => showNotification("Usuário adicionado com sucesso"), [showNotification]);
+  const handleMemberRemoved = useCallback((_name: string) => showNotification("Membro removido com sucesso"), [showNotification]);
+  const handleCommentDeleted = useCallback(() => showNotification("Comentário excluído com sucesso"), [showNotification]);
 
   const handleSchedulePost = useCallback((post: ScheduledPost) => {
     setScheduledPosts(prev => [...prev, post]);
-    notification.success({
-      message: "Postagem agendada com sucesso",
-      description: `Será publicada em ${post.scheduledAt.toLocaleDateString("pt-BR")} às ${post.scheduledAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`,
-      duration: 5,
-      placement: "bottomLeft",
-      icon: <CheckCircle2 size={18} style={{ color: "#079455" }} />,
-      style: { borderRadius: 12, boxShadow: "0 8px 24px rgba(10,13,18,0.12)" },
-    });
-  }, [notification]);
+    showNotification("Postagem agendada com sucesso");
+  }, [showNotification]);
 
   const handlePublishScheduled = useCallback((id: string) => {
     setScheduledPosts(prev => prev.map(p => p.id === id ? { ...p, status: "postado" as const } : p));
-    notification.success({
-      message: "Postagem publicada com sucesso",
-      duration: 4,
-      placement: "bottomLeft",
-      icon: <CheckCircle2 size={18} style={{ color: "#079455" }} />,
-      style: { borderRadius: 12 },
-    });
-  }, [notification]);
+    showNotification("Postagem publicada com sucesso");
+  }, [showNotification]);
 
   const handleDeleteScheduled = useCallback((id: string) => {
     setScheduledPosts(prev => prev.filter(p => p.id !== id));
-  }, []);
+    showNotification("Postagem excluída com sucesso");
+  }, [showNotification]);
 
   const handleUpdateScheduled = useCallback((updated: ScheduledPost) => {
     setScheduledPosts(prev => prev.map(p => p.id === updated.id ? updated : p));
-  }, []);
+    showNotification("Postagem editada com sucesso");
+  }, [showNotification]);
 
   const handleEmojiSelect = useCallback((emoji: string) => {
     setEmojiPickerOpen(false);

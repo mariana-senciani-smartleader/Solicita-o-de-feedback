@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { App, Card, Dropdown, Flex, Tooltip, Typography } from "antd";
+import { Card, Dropdown, Flex, Tooltip, Typography } from "antd";
 import type { MenuProps } from "antd";
 import {
-  BarChart3, Briefcase, CheckCircle2, ChevronDown, Code,
+  BarChart3, Briefcase, ChevronDown, Code,
   Database, Globe, Headphones, Megaphone, Monitor, Package,
   Pencil, PiggyBank, Pin, Plus, Scale,
-  Search, Sparkles, Trash2, Users2, Wrench, X, Check,
+  Search, Sparkles, Trash2, Users2, Wrench, X,
 } from "lucide-react";
+import { useAppNotification } from "@/context/NotificationContext";
 import CreateChannelModal from "./CreateChannelModal";
 import EditChannelModal from "./EditChannelModal";
 import DeleteModal from "./DeleteModal";
@@ -69,7 +70,7 @@ const sortChannels = (channels: Channel[]) => {
 };
 
 const ChannelsSidebar = ({ selectedChannel, onSelectChannel, style }: ChannelsSidebarProps) => {
-  const { notification } = App.useApp();
+  const { showNotification } = useAppNotification();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingChannel, setEditingChannel] = useState<Channel | null>(null);
@@ -138,16 +139,7 @@ const ChannelsSidebar = ({ selectedChannel, onSelectChannel, style }: ChannelsSi
       { icon: data.icon, label: data.name || "Novo canal", iconBg: data.color, iconColorHex: data.color },
     ]);
     setCreateModalOpen(false);
-    notification.success({
-      message: "Canal criado com sucesso",
-      duration: 4,
-      icon: (
-        <div style={{ width: 24, height: 24, borderRadius: "50%", background: "#079455", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Check size={14} color="#fff" strokeWidth={3} />
-        </div>
-      ),
-      placement: "topRight",
-    });
+    showNotification("Canal criado com sucesso");
   };
 
   const handleSaveChannel = (data: { name: string; icon: React.ElementType; color: string }) => {
@@ -160,16 +152,7 @@ const ChannelsSidebar = ({ selectedChannel, onSelectChannel, style }: ChannelsSi
       )
     );
     setEditingChannel(null);
-    notification.success({
-      message: "Canal editado com sucesso",
-      duration: 4,
-      icon: (
-        <div style={{ width: 24, height: 24, borderRadius: "50%", background: "#079455", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Check size={14} color="#fff" strokeWidth={3} />
-        </div>
-      ),
-      placement: "topRight",
-    });
+    showNotification("Canal editado com sucesso");
   };
 
   const handleTogglePin = (label: string) => {
@@ -192,18 +175,7 @@ const ChannelsSidebar = ({ selectedChannel, onSelectChannel, style }: ChannelsSi
       setEditModalOpen(false);
     }
 
-    notification.error({
-      message: "Canal excluído com sucesso",
-      description: `O canal ${deletingChannel.label} foi excluído permanentemente.`,
-      duration: 4,
-      icon: (
-        <div style={{ width: 24, height: 24, borderRadius: "50%", background: "#D92D20", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 2 }}>
-          <X size={14} color="#fff" strokeWidth={3} />
-        </div>
-      ),
-      placement: "topRight",
-    });
-
+    showNotification("Canal excluído com sucesso");
     setDeletingChannel(null);
   };
 
