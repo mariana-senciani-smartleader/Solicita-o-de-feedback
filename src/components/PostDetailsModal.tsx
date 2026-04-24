@@ -390,7 +390,7 @@ const PostDetailsModal = ({ post, onClose, onDelete, onPublish, onRetry, onEdit 
                 Ver postagem final
               </OutlineBtn>
             ) : isFalhou ? (
-              <OutlineBtn onClick={() => onRetry?.(post.id)} icon={RefreshCw} iconColor="#667085">
+              <OutlineBtn onClick={() => onRetry?.(post.id)} icon={RefreshCw} iconColor="#A4A7AE">
                 Tentar novamente
               </OutlineBtn>
             ) : (
