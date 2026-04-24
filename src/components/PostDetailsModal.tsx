@@ -367,32 +367,6 @@ const PostDetailsModal = ({ post, onClose, onDelete, onPublish, onRetry, onEdit 
                 </Typography.Text>
               )}
 
-              {/* Extra action buttons — only for "Falhou" */}
-              {isFalhou && (
-                <Flex align="center" gap={10} style={{ marginTop: 4 }}>
-                  <OutlineBtn
-                    onClick={() => onDelete(post.id)}
-                    icon={Trash2}
-                  >
-                    Deletar publicação
-                  </OutlineBtn>
-                  <button
-                    onClick={() => onRetry?.(post.id)}
-                    style={{
-                      display: "inline-flex", alignItems: "center", gap: 7,
-                      padding: "8px 18px", borderRadius: 8, border: "none",
-                      background: "#1570EF", color: "#fff",
-                      fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif",
-                      lineHeight: "20px",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.background = "#1462D4")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "#1570EF")}
-                  >
-                    <RefreshCw size={15} color="#fff" strokeWidth={2} />
-                    Tentar novamente
-                  </button>
-                </Flex>
-              )}
             </div>
 
           </div>
@@ -414,6 +388,10 @@ const PostDetailsModal = ({ post, onClose, onDelete, onPublish, onRetry, onEdit 
             {isPostado ? (
               <OutlineBtn onClick={() => {}} icon={ExternalLink} iconColor="#667085">
                 Ver postagem final
+              </OutlineBtn>
+            ) : isFalhou ? (
+              <OutlineBtn onClick={() => onRetry?.(post.id)} icon={RefreshCw} iconColor="#667085">
+                Tentar novamente
               </OutlineBtn>
             ) : (
               <OutlineBtn onClick={() => onPublish(post.id)} icon={Send} iconColor="#667085">
