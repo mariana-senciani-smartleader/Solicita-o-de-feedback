@@ -473,9 +473,10 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
 
         {/* ── Scheduled posts tab ── */}
         {tab === "scheduled" && (
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-            {/* Search + filter bar */}
-            <div style={{ padding: "16px 24px", flexShrink: 0 }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", padding: 24 }}>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", border: "1px solid #E9EAEB", borderRadius: 12, overflow: "hidden" }}>
+              {/* Search + filter bar */}
+              <div style={{ padding: "16px 24px", flexShrink: 0 }}>
               <Flex align="center" gap={12}>
                 <div style={{ position: "relative", display: "flex", alignItems: "center", width: 320 }}>
                   <Search size={16} color="#A4A7AE" style={{ position: "absolute", left: 12, pointerEvents: "none" }} />
@@ -534,7 +535,7 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
                   </Typography.Text>
                 </div>
               ) : (
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed" }}>
                   <thead>
                     <tr style={{ borderBottom: "1px solid #E9EAEB", background: "#FAFAFA" }}>
                       <th style={{ padding: "12px 12px 12px 24px", width: 28 }}>
@@ -593,7 +594,7 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
                                 <Typography.Text style={{ fontSize: 14, fontWeight: 600, color: "#101828", display: "block", lineHeight: "20px" }}>
                                   {post.author}
                                 </Typography.Text>
-                                <Typography.Text style={{ fontSize: 13, color: "#717680", display: "block", lineHeight: "20px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 480 }}>
+                                <Typography.Text style={{ fontSize: 13, color: "#717680", display: "block", lineHeight: "20px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                   {post.content}
                                 </Typography.Text>
                               </div>
@@ -655,6 +656,7 @@ const ChannelSettingsModal = ({ open, channel, onClose, scheduledPosts, onPublis
                 </Flex>
               </div>
             )}
+            </div>
           </div>
         )}
       </div>
@@ -751,7 +753,7 @@ const ToggleOpt = ({ label, checked, onChange }: { label: string; checked: boole
 );
 const cancelBtnStyle: React.CSSProperties = { display: "flex", alignItems: "center", padding: "8px 18px", borderRadius: 8, border: "1px solid #D5D7DA", background: "#fff", cursor: "pointer", fontSize: 14, fontWeight: 600, color: "#344054", fontFamily: "inherit" };
 const saveBtnStyle: React.CSSProperties = { display: "flex", alignItems: "center", padding: "8px 22px", borderRadius: 8, border: "none", background: "#1570EF", cursor: "pointer", fontSize: 14, fontWeight: 600, color: "#fff", fontFamily: "inherit" };
-const thStyle: React.CSSProperties = { padding: "12px 16px", textAlign: "left", fontSize: 12, fontWeight: 500, color: "#667085", lineHeight: "18px" };
+const thStyle: React.CSSProperties = { padding: "12px 16px", textAlign: "left", fontSize: 12, fontWeight: 500, color: "#667085", lineHeight: "18px", whiteSpace: "nowrap" };
 const iconActionStyle = (disabled: boolean): React.CSSProperties => ({ width: 36, height: 36, border: "none", borderRadius: 8, background: "transparent", cursor: disabled ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", opacity: disabled ? 0.35 : 1, flexShrink: 0, padding: 0 });
 
 export default ChannelSettingsModal;
