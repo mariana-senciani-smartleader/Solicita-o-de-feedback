@@ -7,6 +7,8 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ChevronRight as ChevronRightIcon,
   RefreshCw,
   Plus,
   Check,
@@ -17,13 +19,24 @@ import {
   Trash2,
   Pencil,
   Link2Off,
+  Users,
+  Search,
+  SlidersHorizontal,
+  AlertTriangle,
+  CheckCircle2,
+  Target,
+  Play,
+  ArrowRight,
+  MoreVertical,
 } from "lucide-react";
+
+export type StarterPoint = "agenda" | "one-on-one";
 
 // ─── Mock Data ───────────────────────────────────────────────────────────────
 const attendees = [
-  { name: "Victor Stati",     email: "victor.stati@smartleader.com.br",     role: "Organizador", initials: "V", color: "#F79009" },
-  { name: "Mariana Senciani", email: "mariana.senciani@smartleader.co",     role: "Convidado",   initials: "M", color: "#667085" },
-  { name: "Heverton Andrade", email: "heverton.andrade@smartleader.c...",   role: "Convidado",   initials: "H", color: "#98A2B3" },
+  { name: "Rafaela Monteiro",  email: "rafaela.monteiro@smartleader.com.br",  role: "Organizador", initials: "R", color: "#F79009" },
+  { name: "Guilherme Farias",  email: "guilherme.farias@smartleader.com.br",  role: "Convidado",   initials: "G", color: "#667085" },
+  { name: "Isabela Carvalho",  email: "isabela.carvalho@smartleader.com.br",  role: "Convidado",   initials: "I", color: "#98A2B3" },
 ];
 
 const pendencias = [
@@ -31,6 +44,21 @@ const pendencias = [
   { text: "Você tem pendências da", highlight: "Prontidão." },
   { text: "Você tem pendências da", highlight: "AVALIAÇÃO DE COMPETÊNCIAS 2025 - Bia." },
   { text: "Você tem pendências da", highlight: "AVALIAÇÃO TESTE ABA FECHANDO." },
+];
+
+const colaboradores = [
+  "Rafaela Monteiro",
+  "Guilherme Farias",
+  "Isabela Carvalho",
+  "Thiago Nascimento",
+  "Camila Rezende",
+  "Lucas Drummond",
+  "Fernanda Peixoto",
+  "André Cavalcanti",
+  "Juliana Teixeira",
+  "Rodrigo Menezes",
+  "Priscila Barbosa",
+  "Felipe Azevedo",
 ];
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -101,16 +129,6 @@ function CalendarCard({ onEventClick }: { onEventClick: () => void }) {
                 >
                   {d.num}
                 </div>
-                {d.isToday && (
-                  <span
-                    onClick={onEventClick}
-                    style={{ position: "absolute", top: 38, fontSize: 9, color: "#1570EF", textAlign: "center", lineHeight: "11px", cursor: "pointer", fontWeight: 600, padding: "0 4px" }}
-                  >
-                    09:30 até 10:00
-                    <br />
-                    Clique e acesse mais informações sobre a reunião e solicite feedbacks
-                  </span>
-                )}
               </div>
             ))}
           </div>
@@ -118,48 +136,98 @@ function CalendarCard({ onEventClick }: { onEventClick: () => void }) {
         </div>
       </div>
 
-      {/* Event card */}
-      <div style={{ marginTop: 24, display: "flex", alignItems: "flex-start", gap: 16 }}>
-        <span style={{ fontSize: 13, fontWeight: 600, color: "#535862", marginTop: 12, minWidth: 40 }}>09:30</span>
-        <div
-          onClick={onEventClick}
-          style={{
-            flex: 1, background: "#EFF8FF", borderLeft: "3px solid #1570EF",
-            border: "1px solid #B2DDFF", borderRadius: 10,
-            padding: "12px 16px",
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            cursor: "pointer",
-            transition: "all 0.15s",
-          }}
-        >
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-              <Calendar size={14} color="#1570EF" />
-              <span style={{ fontSize: 14, fontWeight: 600, color: "#1570EF" }}>Daily Design</span>
-            </div>
-            <div style={{ fontSize: 12, color: "#535862", marginBottom: 4 }}>09:30 até 10:00</div>
-            <p style={{ fontSize: 11, color: "#1570EF", margin: 0, fontWeight: 500 }}>
-              Clique e acesse mais informações sobre a reunião e solicite feedbacks
-            </p>
-          </div>
-          <div style={{ display: "flex" }}>
-            {attendees.map((a, i) => (
-              <div
-                key={a.initials}
-                style={{
-                  width: 28, height: 28, borderRadius: "50%",
-                  background: a.color,
-                  border: "2px solid #fff",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "#fff", fontSize: 11, fontWeight: 700,
-                  marginLeft: i === 0 ? 0 : -8,
-                }}
-              >
-                {a.initials}
-              </div>
-            ))}
+      {/* Info alert */}
+      <div style={{
+        marginTop: 20,
+        display: "flex", alignItems: "flex-start", gap: 12,
+        background: "#fff", border: "1px solid #E9EAEB", borderRadius: 12,
+        padding: "12px 16px",
+      }}>
+        {/* Icon with concentric rings */}
+        <div style={{ position: "relative", width: 36, height: 36, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#EFF8FF", opacity: 0.5 }} />
+          <div style={{ position: "absolute", inset: 6, borderRadius: "50%", background: "#EFF8FF" }} />
+          <div style={{ position: "relative", width: 20, height: 20, borderRadius: "50%", border: "1.5px solid #1570EF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#1570EF", lineHeight: 1 }}>i</span>
           </div>
         </div>
+        <div style={{ paddingTop: 2 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "#181D27", marginBottom: 2 }}>
+            Acesse detalhes e solicite feedbacks
+          </div>
+          <div style={{ fontSize: 13, color: "#535862", lineHeight: "18px" }}>
+            Clique em qualquer evento para ver mais informações sobre a reunião e solicitar feedbacks aos participantes.
+          </div>
+        </div>
+      </div>
+
+      {/* Events list */}
+      <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+
+        {/* Event 1 — Daily Design 09:30 */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#535862", marginTop: 12, minWidth: 40 }}>09:30</span>
+          <div
+            onClick={onEventClick}
+            style={{
+              flex: 1, background: "#EFF8FF",
+              border: "1px solid #B2DDFF", borderLeft: "3px solid #1570EF", borderRadius: 10,
+              padding: "12px 16px",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              cursor: "pointer", transition: "all 0.15s",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+                <Calendar size={14} color="#1570EF" />
+                <span style={{ fontSize: 14, fontWeight: 600, color: "#1570EF" }}>Daily Design</span>
+              </div>
+              <div style={{ fontSize: 12, color: "#535862" }}>09:30 até 10:00</div>
+            </div>
+            <div style={{ display: "flex" }}>
+              {attendees.map((a, i) => (
+                <div key={a.initials} style={{ width: 28, height: 28, borderRadius: "50%", background: a.color, border: "2px solid #fff", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 11, fontWeight: 700, marginLeft: i === 0 ? 0 : -8 }}>
+                  {a.initials}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Event 2 — Reunião de Produto 11:00 */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#535862", marginTop: 12, minWidth: 40 }}>11:00</span>
+          <div
+            onClick={onEventClick}
+            style={{
+              flex: 1, background: "#EFF8FF",
+              border: "1px solid #B2DDFF", borderLeft: "3px solid #1570EF", borderRadius: 10,
+              padding: "12px 16px",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              cursor: "pointer", transition: "all 0.15s",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+                <Calendar size={14} color="#1570EF" />
+                <span style={{ fontSize: 14, fontWeight: 600, color: "#1570EF" }}>Reunião de Produto</span>
+              </div>
+              <div style={{ fontSize: 12, color: "#535862" }}>11:00 até 11:45</div>
+            </div>
+            <div style={{ display: "flex" }}>
+              {[
+                { initials: "R", color: "#F79009" },
+                { initials: "T", color: "#7F56D9" },
+                { initials: "C", color: "#039855" },
+              ].map((a, i) => (
+                <div key={a.initials} style={{ width: 28, height: 28, borderRadius: "50%", background: a.color, border: "2px solid #fff", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 11, fontWeight: 700, marginLeft: i === 0 ? 0 : -8 }}>
+                  {a.initials}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
@@ -223,7 +291,7 @@ function PendenciasSidebar() {
 function EventDetailsModal({ onClose, onSolicitar }: { onClose: () => void; onSolicitar: () => void }) {
   return (
     <ModalOverlay onClose={onClose}>
-      <div style={{ background: "#fff", borderRadius: 16, width: 560, maxWidth: "90vw", overflow: "hidden", boxShadow: "0 20px 64px rgba(10,13,18,0.25)" }}>
+      <div style={{ background: "#fff", borderRadius: 16, width: 680, maxWidth: "92vw", overflow: "hidden", boxShadow: "0 20px 64px rgba(10,13,18,0.25)" }}>
         <div style={{ padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #E9EAEB" }}>
           <span style={{ fontSize: 18, fontWeight: 600, color: "#181D27" }}>Detalhes do evento</span>
           <button onClick={onClose} style={btnIconBare}><X size={18} color="#535862" /></button>
@@ -363,12 +431,12 @@ function FeedbackRequestModal({
 
           {type === "sobreOutro" && (
             <FormField label="Quem receberá o feedback?">
-              <SelectInput value={recipient} onChange={setRecipient} placeholder="Selecione os colaboradores" options={attendees.map(a => a.name)} />
+              <SelectInput value={recipient} onChange={setRecipient} placeholder="Selecione os colaboradores" options={colaboradores} />
             </FormField>
           )}
 
           <FormField label={type === "sobreTopico" ? "Quem você quer que responda?" : "Quem você quer que ofereça o feedback?"}>
-            <SelectInput value={provider} onChange={setProvider} placeholder="Selecione os colaboradores" options={attendees.map(a => a.name)} />
+            <SelectInput value={provider} onChange={setProvider} placeholder="Selecione os colaboradores" options={colaboradores} />
           </FormField>
 
           <FormField label="Qual é a sua pergunta?">
@@ -413,24 +481,75 @@ function FormField({ label, children }: { label: string; children: React.ReactNo
 }
 
 function SelectInput({ value, onChange, placeholder, options }: { value: string; onChange: (v: string) => void; placeholder: string; options: string[] }) {
+  const [open, setOpen] = useState(false);
+
   return (
     <div style={{ position: "relative" }}>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
         style={{
-          width: "100%", appearance: "none",
-          border: "1px solid #D5D7DA", borderRadius: 10,
-          padding: "10px 36px 10px 12px",
-          fontSize: 14, color: value ? "#181D27" : "#A4A7AE",
-          background: "#fff", outline: "none", cursor: "pointer",
+          width: "100%",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          border: `1px solid ${open ? "#1570EF" : "#D5D7DA"}`,
+          borderRadius: 10,
+          padding: "10px 14px",
+          fontSize: 14,
+          color: value ? "#181D27" : "#A4A7AE",
+          background: "#fff",
+          outline: "none",
+          cursor: "pointer",
           fontFamily: "inherit",
+          boxShadow: open ? "0 0 0 3px rgba(21,112,239,0.12)" : "none",
+          transition: "border-color 0.15s, box-shadow 0.15s",
+          textAlign: "left",
         }}
       >
-        <option value="">{placeholder}</option>
-        {options.map((o) => <option key={o} value={o}>{o}</option>)}
-      </select>
-      <ChevronRight size={16} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%) rotate(90deg)", color: "#535862", pointerEvents: "none" }} />
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {value || placeholder}
+        </span>
+        <ChevronDown
+          size={16}
+          color="#667085"
+          style={{ flexShrink: 0, marginLeft: 8, transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}
+        />
+      </button>
+
+      {open && (
+        <>
+          <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 299 }} />
+          <div style={{
+            position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 300,
+            background: "#fff", borderRadius: 10,
+            border: "1px solid #E9EAEB",
+            boxShadow: "0 8px 24px rgba(10,13,18,0.12)",
+            maxHeight: 220, overflowY: "auto",
+          }}>
+            {options.map((o) => (
+              <button
+                key={o}
+                type="button"
+                onClick={() => { onChange(o); setOpen(false); }}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  width: "100%", padding: "10px 14px",
+                  border: "none",
+                  background: value === o ? "#EFF8FF" : "#fff",
+                  fontSize: 14, fontWeight: value === o ? 600 : 400,
+                  color: value === o ? "#1570EF" : "#344054",
+                  cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+                  transition: "background 0.1s",
+                }}
+                onMouseEnter={(e) => { if (value !== o) (e.currentTarget as HTMLButtonElement).style.background = "#FAFAFA"; }}
+                onMouseLeave={(e) => { if (value !== o) (e.currentTarget as HTMLButtonElement).style.background = "#fff"; }}
+              >
+                <span>{o}</span>
+                {value === o && <Check size={14} color="#1570EF" strokeWidth={2.5} />}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -439,24 +558,41 @@ function SelectInput({ value, onChange, placeholder, options }: { value: string;
 function SuccessModal({ onClose }: { onClose: () => void }) {
   return (
     <ModalOverlay onClose={onClose}>
-      <div style={{ background: "#fff", borderRadius: 16, width: 480, maxWidth: "90vw", boxShadow: "0 20px 64px rgba(10,13,18,0.25)", padding: 32, textAlign: "center" }}>
-        <div style={{ position: "relative", width: 80, height: 80, margin: "0 auto 24px" }}>
-          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#D1FADF", opacity: 0.4 }} />
-          <div style={{ position: "absolute", inset: 8, borderRadius: "50%", background: "#A6F4C5", opacity: 0.6 }} />
-          <div style={{ position: "absolute", inset: 16, borderRadius: "50%", background: "#fff", border: "3px solid #039855", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Check size={28} color="#039855" strokeWidth={3} />
-          </div>
+      <div style={{ background: "#fff", borderRadius: 16, width: 480, maxWidth: "90vw", boxShadow: "0 20px 64px rgba(10,13,18,0.25)", padding: "24px 24px 24px", textAlign: "center" }}>
+        {/* Circle with subtle outer halo — matches reference */}
+        <div style={{
+          width: 56, height: 56, borderRadius: "50%",
+          background: "#DCFAE6",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          margin: "0 auto 16px",
+        }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M7.5 12.5L10.5 15.5L16.5 9.5M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+              stroke="#079455" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+            />
+          </svg>
         </div>
-        <h3 style={{ margin: "0 0 12px", fontSize: 22, fontWeight: 700, color: "#181D27" }}>Solicitação enviada!</h3>
-        <p style={{ margin: 0, fontSize: 14, color: "#535862", lineHeight: "20px" }}>
-          Seu pedido de feedback foi registrado e enviado com sucesso.
+
+        <h3 style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 600, color: "#181D27" }}>
+          Solicitação enviada!
+        </h3>
+        <p style={{ margin: "0 0 24px", fontSize: 14, color: "#535862", lineHeight: "20px" }}>
+          Seu pedido de feedback foi registrado e enviado com sucesso. Os participantes receberão uma notificação para responder o feedback.
         </p>
-        <p style={{ margin: "16px 0 24px", fontSize: 14, color: "#535862", lineHeight: "20px" }}>
-          Os participantes receberão uma notificação para responder o feedback.
-        </p>
-        <div style={{ borderTop: "1px solid #E9EAEB", paddingTop: 20 }}>
-          <button onClick={onClose} style={btnPrimary}>Concluir</button>
-        </div>
+
+        <button
+          onClick={onClose}
+          style={{
+            width: "100%", padding: "12px 20px",
+            background: "#1570EF", color: "#fff",
+            border: "none", borderRadius: 10,
+            fontSize: 14, fontWeight: 600, cursor: "pointer",
+            fontFamily: "inherit",
+          }}
+        >
+          Concluir
+        </button>
       </div>
     </ModalOverlay>
   );
@@ -483,6 +619,513 @@ function ModalOverlay({ onClose, children }: { onClose: () => void; children: Re
     >
       <div onClick={(e) => e.stopPropagation()}>{children}</div>
       <style>{`@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }`}</style>
+    </div>
+  );
+}
+
+// ─── Starter Point Dropdown ──────────────────────────────────────────────────
+function StarterDropdown({
+  value,
+  onChange,
+}: {
+  value: StarterPoint;
+  onChange: (v: StarterPoint) => void;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const options: { value: StarterPoint; label: string }[] = [
+    { value: "agenda", label: "Agenda Integrada" },
+    { value: "one-on-one", label: "1:1" },
+  ];
+
+  const current = options.find((o) => o.value === value)!;
+
+  return (
+    <div style={{ position: "relative" }}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        style={{
+          display: "flex", alignItems: "center", gap: 6,
+          padding: "6px 14px",
+          background: "#fff", color: "#344054",
+          border: "1px solid #D5D7DA", borderRadius: 8,
+          fontSize: 14, fontWeight: 500, cursor: "pointer",
+          fontFamily: "inherit",
+          boxShadow: "0 1px 2px rgba(10,13,18,0.05)",
+        }}
+      >
+        {current.label}
+        <ChevronDown size={16} color="#667085" />
+      </button>
+
+      {open && (
+        <>
+          <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 99 }} />
+          <div style={{
+            position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 100,
+            background: "#fff", borderRadius: 10, border: "1px solid #E9EAEB",
+            boxShadow: "0 8px 24px rgba(10,13,18,0.12)", minWidth: 180, overflow: "hidden",
+          }}>
+            {options.map((o) => (
+              <button
+                key={o.value}
+                onClick={() => { onChange(o.value); setOpen(false); }}
+                style={{
+                  width: "100%", display: "flex", alignItems: "center", gap: 8,
+                  padding: "10px 16px", border: "none",
+                  background: value === o.value ? "#F5F8FF" : "#fff",
+                  fontSize: 14, fontWeight: value === o.value ? 600 : 400,
+                  color: value === o.value ? "#1570EF" : "#344054",
+                  cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+                }}
+              >
+                {value === o.value && (
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#1570EF", flexShrink: 0 }} />
+                )}
+                {o.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── One-on-One View ──────────────────────────────────────────────────────────
+type InnerTab = "1:1s" | "Histórico" | "Configurações";
+
+const reunioesAvatars = {
+  eve:     "/assets/avatar-mariana-oliveira.png",
+  candice: "/assets/avatar-fernanda-lima.png",
+  drew:    "/assets/avatar-bruno-delorence.png",
+  andi:    "/assets/avatar-juliana-rocha.png",
+  natalie: "/assets/avatar-camila-torres.png",
+  lory:    "/assets/avatar-ana-costa.png",
+};
+
+function OneOnOneView({ onSolicitar }: { onSolicitar: () => void }) {
+  const [innerTab, setInnerTab] = useState<InnerTab>("1:1s");
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 16, border: "1px solid #E9EAEB", overflow: "hidden" }}>
+      {/* Inner tabs */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "16px 24px 0", borderBottom: "1px solid #E9EAEB" }}>
+        {(["1:1s", "Histórico", "Configurações"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setInnerTab(t)}
+            style={{
+              position: "relative",
+              padding: "10px 16px",
+              border: "none", background: "transparent",
+              fontFamily: "inherit", fontSize: 14, fontWeight: 600,
+              color: innerTab === t ? "#1570EF" : "#717680",
+              cursor: "pointer",
+              borderRadius: innerTab === t ? "8px 8px 0 0" : 0,
+              backgroundColor: innerTab === t ? "#F5F8FF" : "transparent",
+            }}
+          >
+            {t}
+            {innerTab === t && (
+              <span style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 2, background: "#1570EF" }} />
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Body */}
+      <div style={{ padding: 24 }}>
+        {/* Stats row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 20 }}>
+          <StatCard
+            icon={<Target size={20} color="#079455" />}
+            iconBg="#ECFDF3"
+            label="1:1s completos"
+            value="05"
+            suffix="/08"
+          />
+          <StatCard
+            icon={<Calendar size={20} color="#1570EF" />}
+            iconBg="#EFF8FF"
+            label="Reuniões da semana"
+            value="12"
+          />
+          <StatCard
+            icon={<AlertTriangle size={20} color="#DC6803" />}
+            iconBg="#FFFAEB"
+            label="Pendente de preparação"
+            value="4"
+            valueColor="#DC6803"
+          />
+          <StatCard
+            icon={<Users size={20} color="#1570EF" />}
+            iconBg="#EFF8FF"
+            label="Time"
+            value="8"
+          />
+        </div>
+
+        {/* Filter bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, border: "1px solid #D5D7DA", borderRadius: 8, padding: "8px 12px", background: "#fff" }}>
+            <Search size={16} color="#A4A7AE" />
+            <span style={{ fontSize: 14, color: "#A4A7AE" }}>Pesquisar...</span>
+          </div>
+          <button style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", background: "#fff", border: "1px solid #D5D7DA", borderRadius: 8, fontSize: 14, fontWeight: 500, color: "#344054", cursor: "pointer", fontFamily: "inherit" }}>
+            <SlidersHorizontal size={15} color="#344054" />
+            Smartfilter
+          </button>
+          <button style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", background: "#fff", border: "1px solid #D5D7DA", borderRadius: 8, fontSize: 14, fontWeight: 500, color: "#344054", cursor: "pointer", fontFamily: "inherit" }}>
+            Outubro <ChevronDown size={15} color="#667085" />
+          </button>
+          <button style={{ display: "flex", alignItems: "center", gap: 6, padding: "9px 18px", background: "#1570EF", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#fff", cursor: "pointer", fontFamily: "inherit", marginLeft: "auto" }}>
+            <Plus size={16} />
+            Nova reunião
+          </button>
+        </div>
+
+        {/* Kanban */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+          {/* Sem agendamento */}
+          <KanbanColumn
+            icon={
+              <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#FEE4E2", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                <AlertTriangle size={11} color="#D92D20" strokeWidth={2.5} />
+              </span>
+            }
+            title="Sem agendamento"
+            count={2}
+          >
+            <SemAgendamentoCard avatar={reunioesAvatars.eve} name="Eve Leroy" role="UX researcher" days={19} />
+            <SemAgendamentoCard avatar={reunioesAvatars.candice} name="Candice Wu" role="Product Manager" days={32} />
+          </KanbanColumn>
+
+          {/* Agendadas */}
+          <KanbanColumn
+            icon={
+              <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#EFF8FF", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                <Calendar size={11} color="#1570EF" strokeWidth={2.5} />
+              </span>
+            }
+            title="Agendadas"
+            count={4}
+          >
+            <AgendadaCard
+              id="agend-1"
+              avatar={reunioesAvatars.drew}
+              name="Drew Cano"
+              role="UX researcher"
+              title="Alinhamento semanal"
+              date="13 out 2025"
+              time="09:00 - 09:30"
+              status="necessita"
+              menuOpen={openMenuId === "agend-1"}
+              onMenuToggle={() => setOpenMenuId(openMenuId === "agend-1" ? null : "agend-1")}
+            />
+            <AgendadaCard
+              id="agend-2"
+              avatar={reunioesAvatars.andi}
+              name="Andi Lane"
+              role="UX researcher"
+              title="Planejamento Q1 2026"
+              date="13 out 2025"
+              time="09:00 - 09:30"
+              status="preparada"
+              menuOpen={false}
+              onMenuToggle={() => {}}
+            />
+            <AgendadaCard
+              id="agend-3"
+              avatar={reunioesAvatars.natalie}
+              name="Natalie Craig"
+              role="UX researcher"
+              title="Alinhamento semanal"
+              date="13 out 2025"
+              time="09:00 - 09:30"
+              status="preparada"
+              menuOpen={false}
+              onMenuToggle={() => {}}
+            />
+          </KanbanColumn>
+
+          {/* A seguir */}
+          <KanbanColumn
+            icon={
+              <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#EFF8FF", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                <Play size={10} color="#1570EF" fill="#1570EF" strokeWidth={2.5} />
+              </span>
+            }
+            title="A seguir"
+            count={2}
+          >
+            <ASeguirCard
+              avatar={reunioesAvatars.drew}
+              name="Drew Cano"
+              role="UX researcher"
+              title="Alinhamento semanal"
+              date="13 out 2025"
+              time="09:00 - 09:30"
+              isAgora
+              status="necessita"
+              primary
+            />
+            <ASeguirCard
+              avatar={reunioesAvatars.lory}
+              name="Lory Bryson"
+              role="UX researcher"
+              title="Alinhamento semanal"
+              date="13 out 2025"
+              time="10:00 - 10:30"
+              status="preparada"
+            />
+            <ASeguirCard
+              avatar={reunioesAvatars.lory}
+              name="Lory Bryson"
+              role="UX researcher"
+              title="Alinhamento semanal"
+              date="13 out 2025"
+              time="10:00 - 10:30"
+              status="naoConcluida"
+            />
+          </KanbanColumn>
+
+          {/* Concluídas */}
+          <KanbanColumn
+            icon={
+              <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#ECFDF3", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                <Check size={11} color="#079455" strokeWidth={3} />
+              </span>
+            }
+            title="Concluídas"
+            count={1}
+          >
+            <ConcluidaCard onSolicitar={onSolicitar} />
+          </KanbanColumn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, iconBg, label, value, suffix, valueColor = "#181D27" }: {
+  icon: React.ReactNode; iconBg: string; label: string; value: string; suffix?: string; valueColor?: string;
+}) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E9EAEB", padding: "20px 24px", display: "flex", alignItems: "center", gap: 16 }}>
+      <div style={{ width: 44, height: 44, borderRadius: 10, background: iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+        {icon}
+      </div>
+      <div>
+        <div style={{ fontSize: 14, color: "#717680", marginBottom: 4 }}>{label}</div>
+        <div style={{ fontSize: 28, fontWeight: 700, color: valueColor, lineHeight: 1 }}>
+          {value}
+          {suffix && <span style={{ fontSize: 16, fontWeight: 500, color: "#A4A7AE", marginLeft: 2 }}>{suffix}</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KanbanColumn({ icon, title, count, children }: {
+  icon: React.ReactNode; title: string; count: number; children: React.ReactNode;
+}) {
+  return (
+    <div style={{ background: "#FAFAFA", borderRadius: 12, padding: 12, display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 4px 8px" }}>
+        {icon}
+        <span style={{ fontSize: 14, fontWeight: 600, color: "#181D27" }}>{title}</span>
+        <span style={{ background: "#F2F4F7", color: "#344054", fontSize: 12, fontWeight: 600, padding: "1px 8px", borderRadius: 6, border: "1px solid #E9EAEB" }}>{count}</span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function PersonHeader({ avatar, name, role }: { avatar: string; name: string; role: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+      <img src={avatar} alt="" style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", flexShrink: 0, background: "#F2F4F7" }} />
+      <div>
+        <div style={{ fontSize: 14, fontWeight: 600, color: "#181D27" }}>{name}</div>
+        <div style={{ fontSize: 12, color: "#717680" }}>{role}</div>
+      </div>
+    </div>
+  );
+}
+
+function SemAgendamentoCard({ avatar, name, role, days }: { avatar: string; name: string; role: string; days: number }) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E9EAEB", padding: 16 }}>
+      <PersonHeader avatar={avatar} name={name} role={role} />
+      <div style={{ background: "#FFFAEB", border: "1px solid #FEDF89", borderRadius: 8, padding: 12, marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+          <AlertTriangle size={16} color="#DC6803" style={{ flexShrink: 0, marginTop: 1 }} />
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#93370D" }}>Sem reunião este mês</div>
+            <div style={{ fontSize: 12, color: "#B54708", marginTop: 2, lineHeight: "16px" }}>
+              Faz {days} dias que você não tem uma reunião com {name.split(" ")[0]}
+            </div>
+          </div>
+        </div>
+      </div>
+      <button style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", justifyContent: "center", padding: "8px 12px", background: "#fff", border: "1px solid #D5D7DA", borderRadius: 8, fontSize: 13, fontWeight: 600, color: "#1570EF", cursor: "pointer", fontFamily: "inherit" }}>
+        <Calendar size={14} color="#1570EF" />
+        Agendar reunião
+      </button>
+    </div>
+  );
+}
+
+type StatusType = "necessita" | "preparada" | "naoConcluida";
+
+function StatusBadge({ status }: { status: StatusType }) {
+  if (status === "necessita") {
+    return (
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#FFFAEB", color: "#B54708", fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 99, border: "1px solid #FEDF89" }}>
+        <AlertTriangle size={11} />
+        Necessita de preparo
+      </span>
+    );
+  }
+  if (status === "preparada") {
+    return (
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#ECFDF3", color: "#067647", fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 99, border: "1px solid #ABEFC6" }}>
+        <Check size={11} strokeWidth={3} />
+        Preparada
+      </span>
+    );
+  }
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#FEF3F2", color: "#B42318", fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 99, border: "1px solid #FECDCA" }}>
+      <Clock size={11} />
+      Não concluída
+    </span>
+  );
+}
+
+function MeetingMeta({ date, time }: { date: string; time: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "#717680", marginBottom: 10, flexWrap: "wrap" }}>
+      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <Calendar size={12} color="#A4A7AE" />{date}
+      </span>
+      <span style={{ color: "#D5D7DA" }}>•</span>
+      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <Clock size={12} color="#A4A7AE" />{time}
+      </span>
+    </div>
+  );
+}
+
+function AgendadaCard({
+  id, avatar, name, role, title, date, time, status, menuOpen, onMenuToggle,
+}: {
+  id: string; avatar: string; name: string; role: string; title: string; date: string; time: string;
+  status: StatusType; menuOpen: boolean; onMenuToggle: () => void;
+}) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E9EAEB", padding: 16, position: "relative" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <PersonHeader avatar={avatar} name={name} role={role} />
+        <button onClick={onMenuToggle} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, marginRight: -4, marginTop: -4 }}>
+          <MoreVertical size={16} color="#667085" />
+        </button>
+      </div>
+      <div style={{ fontSize: 14, fontWeight: 600, color: "#181D27", marginBottom: 8 }}>{title}</div>
+      <MeetingMeta date={date} time={time} />
+      <div style={{ marginBottom: 12 }}>
+        <StatusBadge status={status} />
+      </div>
+      <button style={{ display: "flex", alignItems: "center", gap: 6, padding: 0, background: "transparent", border: "none", fontSize: 13, fontWeight: 600, color: "#1570EF", cursor: "pointer", fontFamily: "inherit" }}>
+        Preparar reunião
+        <ArrowRight size={14} />
+      </button>
+
+      {menuOpen && (
+        <>
+          <div onClick={onMenuToggle} style={{ position: "fixed", inset: 0, zIndex: 50 }} />
+          <div style={{ position: "absolute", top: 36, right: 12, zIndex: 51, background: "#fff", border: "1px solid #E9EAEB", borderRadius: 10, boxShadow: "0 8px 24px rgba(10,13,18,0.12)", minWidth: 160, overflow: "hidden" }}>
+            <MenuItem icon={<Pencil size={14} />}>Editar</MenuItem>
+            <MenuItem icon={<Play size={14} fill="currentColor" />}>Iniciar</MenuItem>
+            <MenuItem icon={<Trash2 size={14} />} danger>Excluir reunião</MenuItem>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function MenuItem({ icon, children, danger }: { icon: React.ReactNode; children: React.ReactNode; danger?: boolean }) {
+  return (
+    <button style={{
+      display: "flex", alignItems: "center", gap: 10, width: "100%",
+      padding: "10px 14px", border: "none", background: "#fff", cursor: "pointer",
+      fontFamily: "inherit", fontSize: 14, fontWeight: 500,
+      color: danger ? "#D92D20" : "#344054",
+      textAlign: "left",
+    }}>
+      {icon}
+      {children}
+    </button>
+  );
+}
+
+function ASeguirCard({
+  avatar, name, role, title, date, time, isAgora, status, primary,
+}: {
+  avatar: string; name: string; role: string; title: string; date: string; time: string;
+  isAgora?: boolean; status: StatusType; primary?: boolean;
+}) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E9EAEB", padding: 16 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <PersonHeader avatar={avatar} name={name} role={role} />
+        {isAgora && (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 700, color: "#D92D20" }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#D92D20" }} />
+            AGORA
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: 14, fontWeight: 600, color: "#181D27", marginBottom: 8 }}>{title}</div>
+      <MeetingMeta date={date} time={time} />
+      <div style={{ marginBottom: 12 }}>
+        <StatusBadge status={status} />
+      </div>
+      {primary ? (
+        <button style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "10px 12px", background: "#1570EF", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#fff", cursor: "pointer", fontFamily: "inherit" }}>
+          Iniciar agora <Play size={13} fill="#fff" />
+        </button>
+      ) : (
+        <button style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", padding: "10px 12px", background: "#fff", border: "1px solid #D5D7DA", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#344054", cursor: "pointer", fontFamily: "inherit" }}>
+          Iniciar agora <Play size={13} color="#344054" fill="#344054" />
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ConcluidaCard({ onSolicitar }: { onSolicitar: () => void }) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E9EAEB", padding: 16 }}>
+      <PersonHeader avatar={reunioesAvatars.lory} name="Lory Bryson" role="UX researcher" />
+      <div style={{ fontSize: 14, fontWeight: 600, color: "#181D27", marginBottom: 8 }}>Alinhamento semanal</div>
+      <MeetingMeta date="13 out 2025" time="10:00 - 10:30" />
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#ECFDF3", color: "#067647", fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 99, border: "1px solid #ABEFC6", marginBottom: 12 }}>
+        <Check size={11} strokeWidth={3} />
+        Concluída
+      </span>
+      <div>
+        <button
+          onClick={onSolicitar}
+          style={{ display: "flex", alignItems: "center", gap: 6, padding: 0, background: "transparent", border: "none", fontSize: 13, fontWeight: 600, color: "#1570EF", cursor: "pointer", fontFamily: "inherit" }}
+        >
+          <MessageSquare size={14} />
+          Solicitar feedback
+        </button>
+      </div>
     </div>
   );
 }
@@ -551,9 +1194,32 @@ const btnIconBare: React.CSSProperties = {
 };
 
 // ─── Main ───────────────────────────────────────────────────────────────────
-const MainContent = () => {
-  const [activeTab, setActiveTab] = useState("Agenda");
+interface MainContentProps {
+  starter: StarterPoint;
+  setStarter: (v: StarterPoint) => void;
+}
+
+const MainContent = ({ starter, setStarter }: MainContentProps) => {
+  const isOneOnOne = starter === "one-on-one";
+  const [activeTab, setActiveTab] = useState<string>(isOneOnOne ? "1:1s" : "Agenda");
   const [modal, setModal] = useState<ModalState>(null);
+
+  const handleStarterChange = (v: StarterPoint) => {
+    setStarter(v);
+    setActiveTab(v === "one-on-one" ? "1:1s" : "Agenda");
+  };
+
+  const tabOptions = isOneOnOne
+    ? [
+        { label: "1:1s", value: "1:1s" },
+        { label: "Histórico", value: "Histórico" },
+      ]
+    : [
+        { label: "Timeline", value: "Timeline" },
+        { label: "Aniversariantes", value: "Aniversariantes" },
+        { label: "Agenda", value: "Agenda" },
+        { label: "Vagas", value: "Vagas" },
+      ];
 
   return (
     <main style={{ flex: 1, overflowY: "auto", background: "#F5F5F5" }} className="thin-scrollbar">
@@ -561,30 +1227,36 @@ const MainContent = () => {
         {/* Page title */}
         <div style={{ marginBottom: 16 }}>
           <Typography.Title level={3} style={{ margin: 0, fontWeight: 600, color: "#272A31", fontSize: 30, lineHeight: "38px" }}>
-            Módulo Início
+            {isOneOnOne ? "Reuniões" : "Módulo Início"}
           </Typography.Title>
           <Typography.Text style={{ fontSize: 14, color: "#717680" }}>
-            Seu Feed de informações e interações
+            {isOneOnOne
+              ? "Estruture encontros produtivos com pauta clara, registro de decisões e acompanhamento de planos de ação."
+              : "Seu Feed de informações e interações"}
           </Typography.Text>
         </div>
 
-        {/* Tabs */}
-        <div style={{ marginBottom: 20, background: "#fff", borderRadius: 16, border: "1px solid #E9EAEB", padding: "12px 16px" }}>
+        {/* Tabs + Dropdown */}
+        <div style={{ marginBottom: 20, background: "#fff", borderRadius: 16, border: "1px solid #E9EAEB", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
           <Segmented
-            options={[
-              { label: "Timeline", value: "Timeline" },
-              { label: "Aniversariantes", value: "Aniversariantes" },
-              { label: "Agenda", value: "Agenda" },
-              { label: "Vagas", value: "Vagas" },
-            ]}
+            options={tabOptions}
             value={activeTab}
             onChange={(v) => setActiveTab(v as string)}
             style={{ background: "#F5F5F5" }}
           />
+          {(isOneOnOne || activeTab === "Agenda") && (
+            <StarterDropdown value={starter} onChange={handleStarterChange} />
+          )}
         </div>
 
         {/* Content */}
-        {activeTab === "Agenda" ? (
+        {isOneOnOne ? (
+          activeTab === "1:1s" ? (
+            <OneOnOneView onSolicitar={() => setModal("feedbackForm")} />
+          ) : (
+            <EmptyTab tab={activeTab} />
+          )
+        ) : activeTab === "Agenda" ? (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 20, alignItems: "flex-start" }}>
             <CalendarCard onEventClick={() => setModal("eventDetails")} />
             <PendenciasSidebar />

@@ -8,12 +8,11 @@ import {
 interface NavItem {
   icon: React.ElementType;
   label: string;
-  active?: boolean;
   accent?: boolean;
 }
 
 const topItems: NavItem[] = [
-  { icon: Home,            label: "Início",       active: true },
+  { icon: Home,            label: "Início" },
   { icon: PersonStanding,  label: "Jornada" },
   { icon: ShoppingBag,     label: "Marketplace" },
   { icon: Users,           label: "Equipe" },
@@ -29,7 +28,11 @@ const bottomItems: NavItem[] = [
   { icon: LayoutGrid, label: "Smartapps", accent: true },
 ];
 
-const IconSidebar = () => (
+interface IconSidebarProps {
+  activeLabel?: string;
+}
+
+const IconSidebar = ({ activeLabel = "Início" }: IconSidebarProps) => (
   <Flex
     vertical
     justify="space-between"
@@ -37,23 +40,23 @@ const IconSidebar = () => (
   >
     <Flex vertical gap={16} style={{ overflowY: "auto", overflowX: "hidden" }} className="thin-scrollbar">
       {topItems.map((item) => (
-        <SidebarBtn key={item.label} item={item} />
+        <SidebarBtn key={item.label} item={item} active={item.label === activeLabel} />
       ))}
     </Flex>
 
     <Flex vertical gap={16} style={{ paddingTop: 8 }}>
       {bottomItems.map((item) => (
-        <SidebarBtn key={item.label} item={item} />
+        <SidebarBtn key={item.label} item={item} active={item.label === activeLabel} />
       ))}
     </Flex>
   </Flex>
 );
 
-const SidebarBtn = ({ item }: { item: NavItem }) => {
-  const iconStroke = item.active ? "#1570EF" : item.accent ? "#EF6820" : "#344054";
-  const iconFill   = item.active ? "#EFF8FF" : item.accent ? "#FFF4ED" : "#EAECF0";
-  const textColor  = item.active ? "#1570EF" : item.accent ? "#EF6820" : "#535862";
-  const bgColor    = item.active ? "#EFF8FF" : "transparent";
+const SidebarBtn = ({ item, active }: { item: NavItem; active: boolean }) => {
+  const iconStroke = active ? "#1570EF" : item.accent ? "#EF6820" : "#344054";
+  const iconFill   = active ? "#EFF8FF" : item.accent ? "#FFF4ED" : "#EAECF0";
+  const textColor  = active ? "#1570EF" : item.accent ? "#EF6820" : "#535862";
+  const bgColor    = active ? "#EFF8FF" : "transparent";
 
   return (
     <Tooltip title={item.label} placement="right">
@@ -74,23 +77,23 @@ const SidebarBtn = ({ item }: { item: NavItem }) => {
           flexShrink: 0,
         }}
         onMouseEnter={(e) => {
-          if (!item.active)
+          if (!active)
             (e.currentTarget as HTMLButtonElement).style.background = item.accent ? "#FFF4ED" : "#F5F5F5";
         }}
         onMouseLeave={(e) => {
-          if (!item.active)
+          if (!active)
             (e.currentTarget as HTMLButtonElement).style.background = "transparent";
         }}
       >
         <item.icon
           size={18}
-          strokeWidth={item.active ? 2.2 : 1.75}
+          strokeWidth={active ? 2.2 : 1.75}
           color={iconStroke}
           fill={iconFill}
         />
         <span style={{
           fontSize: 9,
-          fontWeight: item.active ? 600 : 500,
+          fontWeight: active ? 600 : 500,
           color: textColor,
           lineHeight: "11px",
           width: "100%",
